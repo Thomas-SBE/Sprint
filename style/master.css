@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "Atkinson Hyperlegible";
+    src: url("./atkinson_bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Atkinson Hyperlegible";
+    src: url("./atkinson_regular.ttf");
+    font-weight: normal;
+}
+
+body
+{
+    font-family: "Atkinson Hyperlegible";
+}
+
+input {
+    font-family: "Atkinson Hyperlegible";
+}
+
+button {
+    font-family: "Atkinson Hyperlegible";
+}
+
+select {
+    font-style: italic;
+    font-family: "Atkinson Hyperlegible";
+}
+
+option:checked {
+    font-family: "Atkinson Hyperlegible";
+}
