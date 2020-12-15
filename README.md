@@ -1,5 +1,7 @@
 # Sprint
 
+✔️ ❌
+
 ## Le directeur se connecte et :
 * modifie les logins et mots de passe : 0.5
 * crée/modifie un service X avec un prix 200 et les pièces X1 à fournir : 0.5
