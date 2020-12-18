@@ -6,7 +6,7 @@
 🛶 Thomas
 
 ## Le directeur se connecte et :
-* ❌ 🍮 modifie les logins et mots de passe : 0.5
+* ✔️ 🍮 modifie les logins et mots de passe : 0.5
 * ❌ 🍮 crée/modifie un service X avec un prix 200 et les pièces X1 à fournir : 0.5
 ## L'agent administratif Y se connecte et :
 * ❌ 🎹 bloque aujourd'hui 18h pour formation : 0.5
