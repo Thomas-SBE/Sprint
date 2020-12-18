@@ -16,13 +16,19 @@ function afficherPageErreurGenerale($erreur)
     echo("<strong style='color:red'>Une erreur est survenue :</strong><br><p style='color:red'>$erreur</p>");
 }
 
-function afficherPageDirecteur($listeagents)
+function afficherPageDirecteur($listeagents, $listedetoutlesjus)
 {
     $listeagentsuniv = "";
     foreach ($listeagents as $agent)
     {
         $listeagentsuniv .= "<option value='$agent->ID_UTILISATEUR'>[$agent->ROLE] $agent->LOGIN</option>";
     }
+
+    $listejus="";
+    foreach ($listedetoutlesjus as $justificatif){
+        $listejus .= "<option value='$justificatif->ID_JUSTIFICATIF'>$justificatif->NOM</option>";
+    }
+
     $user = getUtilisateurByID($_SESSION["user_id"]);
     $username = $user->LOGIN;
     require_once("vue/directeur.php");
@@ -42,3 +48,5 @@ function afficherPageAdmin($listeagentsadmin)
     }
     require_once("vue/agentadmin.php");
 }
+
+

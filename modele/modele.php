@@ -67,3 +67,33 @@ function recupererAgentsAdministratifs()
     $res->closeCursor();
     return $agents;
 }
+
+function modifLogin($login,$mdp, $user_id){
+    $c = getConnection();
+    $req = "UPDATE utilisateurs SET LOGIN = \"$login\", MOT_DE_PASSE =\"$mdp\" WHERE ID_UTILISATEUR = \"$user_id\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function recupererListeJustificatif(){
+    $c = getConnection();
+    $req = "SELECT * FROM justificatif";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $justificatif = $res->fetchAll();
+    $res->closeCursor();
+    return $justificatif;
+}
+function ajouterJustificatif($nomjus){
+    $c = getConnection();
+    $req = "INSERT INTO justificatif (`NOM`) VALUE (\"$nomjus\")";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+function supprimerJustificatif($id){
+    $c = getConnection();
+    $req = "DELETE FROM justificatif WHERE `ID_JUSTIFICATIF`=\"$id\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+

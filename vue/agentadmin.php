@@ -15,7 +15,7 @@
             ?>
         </select></p>
     <p><input type="date" id="date" value="2020-01-01" min="2020-01-01" max="2025-12-31"></p>
-    <p><input type="submit" value="Visualiser son planning"></p>
+    <p><input type="submit" value="Visualiser son planning" name="visuplanning"></p>
 </fieldset>
 
 

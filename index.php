@@ -19,7 +19,19 @@ try{
     }
     elseif(isset($_POST["supplog"]))
     {
-        CtlSupprimerUtlisateur($_POST["supprimeragent"]);
+        CtlSupprimerUtilisateur($_POST["agent"]);
+    }
+    elseif(isset($_POST["modiflog"])){
+        CtlAffichePageModifLogin($_POST["agent"]);
+    }
+    elseif (isset($_POST["activemodif"])){
+        CtlModifLogin($_POST["modiflogin"], $_POST["modifmdp"], $_POST["idagent"]);
+    }
+    elseif (isset($_POST["creerjus"])){
+        CtlAjouterJustificatif($_POST["insererjus"]);
+    }
+    elseif (isset($_POST["suppjus"])){
+        CtlSupprimerJustificatif($_POST["justificatif"]);
     }
     else{
         CtlAfficherPageConnection();

@@ -20,12 +20,12 @@
                 <option value="ACC">Agent Accueil</option>
             </select></p>
         <p><input type="submit" value="Créer login" name="creerlog"></p><br>
-        <p><select name="supprimeragent"><?php echo $listeagentsuniv; ?></select></p>
+        <p><select name="agent"><?php echo $listeagentsuniv; ?></select></p>
         <p><input type="submit" value="Supprimer login" name="supplog"></p>
         <p><input type="submit" value="Modifier login" name="modiflog"></p>
     </form>
 </fieldset>
-
+<br>
 <fieldset>
     <form action="index.php" id="gestionservice" method="post">
         <p><input type="submit" value="Créer service" name="creerser"></p>
@@ -33,16 +33,18 @@
         <p><input type="submit" value="Modifier service" name="modifser"></p>
     </form>
 </fieldset>
-
+<br>
 <fieldset>
-    <legend>Liste des éléments à fournir par l'étudiant</legend>
-    <form action="index.php" id="gestionelement" method="post">
-        <p><input type="submit" value="Créer élément" name="creerelem"></p>
-        <p><input type="submit" value="Supprimer élément" name="suppelem"></p>
-        <p><input type="submit" value="Modifier élément" name="modifelem"></p>
+    <legend>Liste des justificatifs à fournir par l'étudiant</legend>
+    <form action="index.php" id="gestionjus" method="post">
+        <p><label for="nouveaujus">Nouveau justificatif : </label><input type="text" name="insererjus"></p>
+        <p><input type="submit" value="Créer justificatif" name="creerjus"></p>
+        <p><select name="justificatif"><?php echo $listejus; ?></select></p>
+        <p><input type="submit" value="Supprimer justificatif" name="suppjus"></p>
+        <p><input type="submit" value="Modifier justificatif" name="modifjus"></p>
     </form>
 </fieldset>
-
+<br
 <fieldset>
     <form action="index.php" id="afficherstats" method="post">
         <p><input type="submit" value="Afficher les statistiques" name="stats"></p>
