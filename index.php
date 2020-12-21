@@ -24,7 +24,7 @@ try{
     elseif(isset($_POST["modiflog"])){
         CtlAffichePageModifLogin($_POST["agent"]);
     }
-    elseif (isset($_POST["activemodif"])){
+    elseif (isset($_POST["activemodiflogin"])){
         CtlModifLogin($_POST["modiflogin"], $_POST["modifmdp"], $_POST["idagent"]);
     }
     elseif (isset($_POST["creerjus"])){
@@ -32,6 +32,12 @@ try{
     }
     elseif (isset($_POST["suppjus"])){
         CtlSupprimerJustificatif($_POST["justificatif"]);
+    }
+    elseif (isset($_POST["activemodifjustif"])){
+        CtlModifJustificatif($_POST["modifjustif"], $_POST["idjustif"]);
+    }
+    elseif (isset($_POST["modifjus"])){
+        CtlAffichePageModifJustificatif($_POST["justificatif"]);
     }
     else{
         CtlAfficherPageConnection();

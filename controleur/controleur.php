@@ -73,7 +73,7 @@ function CtlAffichePageModifLogin($user_id){
                     <p><input name='idagent' type='hidden' value='$user_id'></p>
                     <p><label for='modiflogin'>Choisissez un nouveau nom utilisateur : </label><input type='text' name='modiflogin'></p>
                     <p><label for='modifmdp'>Choisissez un nouveau mot de passe : </label><input type='text' name='modifmdp'></p>
-                    <p><input type='submit' name='activemodif' value='Modifier'></p>
+                    <p><input type='submit' name='activemodiflogin' value='Modifier'></p>
             </fieldset>");
 }
 
@@ -89,6 +89,25 @@ function CtlSupprimerJustificatif($id){
 
 }
 
+function CtlModifJustificatif($nom, $id_justificatif){
+    $_res = getJustificatifByID($id_justificatif);
+    $justif = $_res->NOM;
+    modifJustificatif($nom,$id_justificatif);
+    echo("<form action='index.php' method='post'><p>L'utilisateur $justif a été modifié avec succès ! <button type='submit' name='affdir'>Retour vers la direction</button><form action='index.php' method='post'>");
+
+}
+
+function CtlAffichePageModifJustificatif($id_justificatif){
+    $_temp = getJustificatifByID($id_justificatif);
+    $justif = $_temp->NOM;
+    echo (" <p>Modification du login de $justif </p>
+            <fieldset>
+                    <form action='index.php' id='modifierjustif' method='post'>
+                    <p><input name='idjustif' type='hidden' value='$id_justificatif'></p>
+                    <p><label for='modifjustif'>Choisissez un nouveau justificatif : </label><input type='text' name='modifjustif'></p>
+                    <p><input type='submit' name='activemodifjustif' value='Modifier'></p>
+            </fieldset>");
+}
 
 
 

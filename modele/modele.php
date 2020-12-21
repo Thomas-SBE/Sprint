@@ -30,6 +30,16 @@ function getUtilisateurByID($id)
     return $user;
 }
 
+function getJustificatifByID($id){
+    $c = getConnection();
+    $req = "SELECT * FROM `justificatif` WHERE `ID_JUSTIFICATIF`=\"$id\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $justif = $res->fetch();
+    $res->closeCursor();
+    return $justif;
+}
+
 function ajouterUtilisateurUniv($login, $mdp, $role)
 {
     $c = getConnection();
@@ -93,6 +103,13 @@ function ajouterJustificatif($nomjus){
 function supprimerJustificatif($id){
     $c = getConnection();
     $req = "DELETE FROM justificatif WHERE `ID_JUSTIFICATIF`=\"$id\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function modifJustificatif($nom, $id_justificatif){
+    $c = getConnection();
+    $req = "UPDATE justificatif SET NOM = \"$nom\" WHERE ID_JUSTIFICATIF = \"$id_justificatif\"";
     $res = $c->query($req);
     $res->closeCursor();
 }
