@@ -109,9 +109,25 @@ function CtlAffichePageModifJustificatif($id_justificatif){
             </fieldset>");
 }
 
+function CtlAfficherPageAdminAvecPlanning($employe,$date)
+{
+    $agentsadmin = recupererAgentsAdministratifs();
+    $formations = getFormations($employe, $date);
+    $employename = getUtilisateurByID($employe);
+    afficherPageAdmin($agentsadmin, $formations, $employename->NOM." ".$employename->PRENOM,$date);
+}
 
+function CtlAjouterService($nom, $montant, $checked=null){
+    $sid = ajouterService($nom, $montant);
+    if ($checked!=null){
+        foreach($checked as $check){
+            ajouterAFournir($sid, $check);
+        }
+    }
 
+    echo("<form action='index.php' method='post'><p>Le service $nom a été ajouté avec succès ! <button type='submit' name='affdir'>Retour vers la direction</button><form action='index.php' method='post'>");
 
+}
 
 
 ?>

@@ -39,6 +39,18 @@ try{
     elseif (isset($_POST["modifjus"])){
         CtlAffichePageModifJustificatif($_POST["justificatif"]);
     }
+    elseif (isset($_POST["visuplanning"]))
+    {
+        CtlAfficherPageAdminAvecPlanning($_POST["choisiagent"], $_POST["calendate"]);
+    }elseif (isset($_POST["creerser"])){
+        if (isset($_POST["justifafournir"])){
+            CtlAjouterService($_POST["nouveauservice"], $_POST["prixservice"], $_POST["justifafournir"]);
+
+        }else{
+            CtlAjouterService($_POST["nouveauservice"], $_POST["prixservice"]);
+
+        }
+    }
     else{
         CtlAfficherPageConnection();
     }

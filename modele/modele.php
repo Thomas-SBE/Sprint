@@ -114,3 +114,29 @@ function modifJustificatif($nom, $id_justificatif){
     $res->closeCursor();
 }
 
+function getFormations($id, $date)
+{
+    $c = getConnection();
+    $req = "SELECT CAST(DATEFORMATION AS TIME) AS `HEURES` FROM `formation` WHERE CAST(DATEFORMATION AS DATE) = \"$date\" AND ID_UTILISATEUR = $id";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $formations = $res->fetchAll();
+    $res->closeCursor();
+    return $formations;
+}
+
+function ajouterService($nom, $montant){
+    $c = getConnection();
+    $req = "INSERT INTO services (NOM,MONTANT) VALUES (\"$nom\",\"$montant\")";
+    $res = $c->query($req);
+    $id = $c->lastInsertId();
+    $res->closeCursor();
+    return $id;
+}
+
+function ajouterAFournir($id_service, $id_justificatif){
+    $c = getConnection();
+    $req = "INSERT INTO a_fournir (ID_SERVICE,ID_JUSTIFICATIF) VALUES (\"$id_service\",\"$id_justificatif\")";
+    $res = $c->query($req);
+    $res->closeCursor();
+}

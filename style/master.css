@@ -31,3 +31,17 @@ select {
 option:checked {
     font-family: "Atkinson Hyperlegible";
 }
+
+tr{
+    border: 1px solid black;
+}
+
+td{
+    border: 2px solid black;
+}
+
+.formation{
+    background-color: red;
+    padding-left: 10px;
+    padding-right: 10px;
+}

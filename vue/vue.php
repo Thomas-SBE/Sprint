@@ -16,7 +16,7 @@ function afficherPageErreurGenerale($erreur)
     echo("<strong style='color:red'>Une erreur est survenue :</strong><br><p style='color:red'>$erreur</p>");
 }
 
-function afficherPageDirecteur($listeagents, $listedetoutlesjus)
+function afficherPageDirecteur($listeagents, $listedetoutlesjus, $msg_e="")
 {
     $listeagentsuniv = "";
     foreach ($listeagents as $agent)
@@ -25,12 +25,17 @@ function afficherPageDirecteur($listeagents, $listedetoutlesjus)
     }
 
     $listejus="";
+    $listejustif="";
     foreach ($listedetoutlesjus as $justificatif){
         $listejus .= "<option value='$justificatif->ID_JUSTIFICATIF'>$justificatif->NOM</option>";
+        $listejustif .= "<p><input type='checkbox' name='justifafournir[]' value='$justificatif->ID_JUSTIFICATIF'> $justificatif->NOM</p>";
     }
+
+
 
     $user = getUtilisateurByID($_SESSION["user_id"]);
     $username = $user->LOGIN;
+    $msg_erreur = $msg_e;
     require_once("vue/directeur.php");
 }
 
@@ -39,13 +44,27 @@ function afficherPageAgentAccueil()
     require_once("vue/agentaccueil.php");
 }
 
-function afficherPageAdmin($listeagentsadmin)
+function afficherPageAdmin($listeagentsadmin, $formations=null, $employeselect=null, $dateselect=null)
 {
     $agentADM = "";
     foreach ($listeagentsadmin as $agent)
     {
-        $agentADM .= "<option value='$agent->ID_UTILISATEUR'>$agent->LOGIN</option>";
+        $agentADM .= "<option value='$agent->ID_UTILISATEUR'>$agent->NOM $agent->PRENOM</option>";
     }
+    if($formations != null && $employeselect != null)
+    {
+        $call = array();
+        $call["date"] = $dateselect;
+        $call["name"] = $employeselect;
+        $forms = $formations;
+        foreach ($forms as $formation)
+        {
+            $time = explode(":", $formation->HEURES);
+            $call[$time[0]] = 1;
+        }
+    }
+    $dateTodayRaw = getdate();
+    $dateToday = $dateTodayRaw["year"]."-".$dateTodayRaw["mon"]."-".$dateTodayRaw["mday"];
     require_once("vue/agentadmin.php");
 }
 
