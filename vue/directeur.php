@@ -8,11 +8,13 @@
 </head>
 <body>
 
-<p>Bienvenue <?php if(isset($username)){echo $username;} ?> ,</p>
+<p>Bienvenue <?php if(isset($username)){echo $username;} ?>,</p>
 
 <fieldset>
     <form action="index.php" id="gestionlogin" method="post">
-        <p><label for="nouveaulogin">Nouveau nom utilisateur : </label><input type="text" name="nouveaulogin" required></p>
+        <p><label for="nouveauprenom">Nouveau Prénom : </label><input type="text" name="nouveauprenom" required></p>
+        <p><label for="nouveaunom">Nouveau Nom : </label><input type="text" name="nouveaunom" required></p>
+        <p><label for="nouveaulogin">Nouveau login : </label><input type="text" name="nouveaulogin" required></p>
         <p><label for="nouveaumdp">Nouveau mot de passe : </label><input type="text" name="nouveaumdp" required></p>
         <p><label for="nouveaurole">Nouveau type de compte : </label> <select name="nouveaurole">
                 <option value="D">Directeur</option>
@@ -20,6 +22,8 @@
                 <option value="ACC">Agent Accueil</option>
             </select></p>
         <p><input type="submit" value="Créer login" name="creerlog"></p><br>
+    </form>
+    <form action="index.php" id="gestionlogin" method="post">
         <p><select name="agent"><?php echo $listeagentsuniv; ?></select></p>
         <p><input type="submit" value="Supprimer login" name="supplog"></p>
         <p><input type="submit" value="Modifier login" name="modiflog"></p>
@@ -34,8 +38,10 @@
         <?php echo $listejustif; ?>
 
         <p><label for="prixservice">Le prix du service : </label><input type="number" name="prixservice" required value="0"></p>
-        <p><input type="submit" value="Créer service" name="creerser"></p>
-
+        <p><input type="submit" value="Créer service" name="creerser"></p><br>
+    </form>
+    <form action="index.php" id="gestionservice" method="post">
+        <p><select name="services"><?php echo $listeser; ?></select></p>
         <p><input type="submit" value="Supprimer service" name="suppser"></p>
         <p><input type="submit" value="Modifier service" name="modifser"></p>
     </form>

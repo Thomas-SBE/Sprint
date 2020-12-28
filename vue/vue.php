@@ -16,7 +16,7 @@ function afficherPageErreurGenerale($erreur)
     echo("<strong style='color:red'>Une erreur est survenue :</strong><br><p style='color:red'>$erreur</p>");
 }
 
-function afficherPageDirecteur($listeagents, $listedetoutlesjus, $msg_e="")
+function afficherPageDirecteur($listeagents, $listedetoutlesjus, $listeservice, $msg_e="")
 {
     $listeagentsuniv = "";
     foreach ($listeagents as $agent)
@@ -29,6 +29,11 @@ function afficherPageDirecteur($listeagents, $listedetoutlesjus, $msg_e="")
     foreach ($listedetoutlesjus as $justificatif){
         $listejus .= "<option value='$justificatif->ID_JUSTIFICATIF'>$justificatif->NOM</option>";
         $listejustif .= "<p><input type='checkbox' name='justifafournir[]' value='$justificatif->ID_JUSTIFICATIF'> $justificatif->NOM</p>";
+    }
+
+    $listeser = "";
+    foreach ($listeservice as $services){
+        $listeser .= "<option value='$services->ID_SERVICE'>$services->NOM - $services->MONTANT €</option>";
     }
 
 
@@ -67,5 +72,3 @@ function afficherPageAdmin($listeagentsadmin, $formations=null, $employeselect=n
     $dateToday = $dateTodayRaw["year"]."-".$dateTodayRaw["mon"]."-".$dateTodayRaw["mday"];
     require_once("vue/agentadmin.php");
 }
-
-

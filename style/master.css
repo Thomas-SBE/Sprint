@@ -40,8 +40,17 @@ td{
     border: 2px solid black;
 }
 
-.formation{
-    background-color: red;
-    padding-left: 10px;
-    padding-right: 10px;
+.rdvbtn
+{
+    position: relative;
+    cursor: default;
+    width: 100%;
+    background-color: #47b566;
+    border: 0;
+    padding: 5px;
+}
+
+
+.rdvbtn:hover{
+    cursor: pointer;
 }

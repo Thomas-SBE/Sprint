@@ -40,10 +40,10 @@ function getJustificatifByID($id){
     return $justif;
 }
 
-function ajouterUtilisateurUniv($login, $mdp, $role)
+function ajouterUtilisateurUniv($login, $mdp, $role, $nom, $prenom)
 {
     $c = getConnection();
-    $req = "INSERT INTO utilisateurs(`LOGIN`,`MOT_DE_PASSE`,`ROLE`) VALUES (\"$login\", \"$mdp\", \"$role\")";
+    $req = "INSERT INTO utilisateurs(`LOGIN`,`MOT_DE_PASSE`,`ROLE`,`NOM`,`PRENOM`) VALUES (\"$login\", \"$mdp\", \"$role\",\"$nom\", \"$prenom\")";
     $res = $c->query($req);
     $res->closeCursor();
 }
@@ -78,9 +78,9 @@ function recupererAgentsAdministratifs()
     return $agents;
 }
 
-function modifLogin($login,$mdp, $user_id){
+function modifLogin($login,$mdp, $user_id, $nom, $prenom){
     $c = getConnection();
-    $req = "UPDATE utilisateurs SET LOGIN = \"$login\", MOT_DE_PASSE =\"$mdp\" WHERE ID_UTILISATEUR = \"$user_id\"";
+    $req = "UPDATE utilisateurs SET LOGIN = \"$login\", MOT_DE_PASSE =\"$mdp\", NOM =\"$nom\", PRENOM =\"$prenom\" WHERE ID_UTILISATEUR = \"$user_id\"";
     $res = $c->query($req);
     $res->closeCursor();
 }
@@ -140,3 +140,55 @@ function ajouterAFournir($id_service, $id_justificatif){
     $res = $c->query($req);
     $res->closeCursor();
 }
+
+function modifService($nom, $montant, $id_service){
+    $c = getConnection();
+    $req = "UPDATE services SET NOM = \"$nom\", MONTANT = \"$montant\" WHERE ID_SERVICE = \"$id_service\"";
+    $res = $c->query($req);
+    $id = $c->lastInsertId();
+    $res->closeCursor();
+    return $id;
+}
+
+function suppAFournir($id_service){
+    $c = getConnection();
+    $req = "DELETE FROM a_fournir WHERE ID_SERVICE = \"$id_service\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+function recupererListeService(){
+    $c = getConnection();
+    $req = "SELECT * FROM services";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $service = $res->fetchAll();
+    $res->closeCursor();
+    return $service;
+}
+
+function getServiceByID($id){
+    $c = getConnection();
+    $req = "SELECT * FROM `services` WHERE `ID_SERVICE`=\"$id\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $service = $res->fetch();
+    $res->closeCursor();
+    return $service;
+}
+
+function supprimerService($id){
+    $c = getConnection();
+    $req = "DELETE FROM services WHERE `ID_SERVICE`=\"$id\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function ajouterEtudiant($id_etu, $nom, $prenom, $adresse, $tel, $mail, $decouvert, $datenaissance){
+    $c = getConnection();
+    $req = "INSERT INTO etudiants (ID_ETUDIANT, NOM, PRENOM, ADRESSE, TELEPHONE, MAIL, DECOUVERT, DATE_NAISSANCE) VALUES (\"$id_etu\", \"$nom\", \"$prenom\", \"$adresse\", \"$tel\", \"$mail\", \"$decouvert\", \"$datenaissance\")";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+
+?>
