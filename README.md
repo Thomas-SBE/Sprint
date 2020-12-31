@@ -23,7 +23,7 @@
 * ❌ 🍮 visualise la synthèse de DUPONT et l'objet d'un rdv en cliquant sur le planning : 1
 ## L'agent se connecte et :
 * ❌ 🛶 essaye de mettre en différé DUPONT mais visualise un blocage de la mise en différé car son montant dépasse le montant autorisé restant : 2
-* ❌ 🛶 augmente a 500 le montant de découvert de DUPONT : 0.5
+* ✔️ 🛶 augmente a 500 le montant de découvert de DUPONT : 0.5
 * ❌ 🛶 met en différé DUPONT et le voit dans sa synthèse avec différé possible de 300 : 1
 * ❌ 🛶 fait payer DUPONT et ce payement s'affiche dans la synthèse étudiant avec un différé possible de 500: 1
 ## Css : 1
