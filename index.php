@@ -20,6 +20,9 @@ try{
     elseif (isset($_POST["affacc"])){
         CtlAfficherPageAgentAccueil();
     }
+    elseif (isset($_POST["affadm"])){
+        CtlAfficherPageAgentAdmin();
+    }
     elseif(isset($_POST["supplog"]))
     {
         CtlSupprimerUtilisateur($_POST["agent"]);
@@ -72,8 +75,44 @@ try{
     elseif (isset($_POST["creeretu"])){
         CtlAjouterEtudiant($_POST["nouveaunumetu"],$_POST["nouveaunometu"],$_POST["nouveauprenometu"],$_POST["nouvelleadresseetu"],$_POST["nouveauteletu"],$_POST["nouveaumailetu"],$_POST["nouveaudecouvertetu"],$_POST["nouvelledatenaissanceetu"]);
     }
+    elseif (isset($_POST["rechercheetu"])){
+        CtlRechercherEtudiant($_POST["etudiant"]);
 
-
+    }
+    elseif (isset($_POST["activemodifetu"])){
+        CtlModifierEtudiant($_POST["modifnumetu"], $_POST["modifnometu"], $_POST["modifprenometu"], $_POST["modifdatenaissanceetu"], $_POST["modifadresseetu"], $_POST["modifteletu"], $_POST["modifmailetu"], $_POST["modifdecouvertetu"]);
+    }
+    elseif (isset($_POST["activesuppetu"])){
+        CtlSupprimerEtu($_POST["modifnometu"]);
+    }
+    elseif (isset($_POST["changedecouvert"]))
+    {
+        CtlChangerDecouvert($_POST["numetu"], $_POST["nouveaudecouvert"]);
+    }
+    elseif (isset($_POST["payer"]))
+    {
+        CtlAfficherListeAPayer($_POST["etudiant"]);
+    }
+    elseif (isset($_POST["paiementbtn"]))
+    {
+        CtlEffectuerUnPaiement($_POST["paiementsamodif"], $_POST["etuname"]);
+    }
+    elseif (isset($_POST["differebtn"]))
+    {
+        CtlPasserEnDiffere($_POST["paiementsamodif"], $_POST["etuname"]);
+    }
+    elseif (isset($_POST["affpaie"]))
+    {
+        CtlAfficherListeAPayer($_POST["etuname"]);
+    }
+    elseif (isset($_POST["btnrdv"])){
+        $id_rdv = $_POST["btnrdv"];
+        CtlSyntheseRdv($id_rdv);
+    }
+    elseif (isset($_POST["consultesynth"]))
+    {
+        CtlSyntheseEtu($_POST["etudiant"]);
+    }
     else{
         CtlAfficherPageConnection();
     }

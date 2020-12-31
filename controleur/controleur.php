@@ -43,12 +43,18 @@ function CtlAfficherPageDirecteur()
     $agents = recupererListeAgents($_SESSION["user_id"]);
     $justif = recupererListeJustificatif();
     $service = recupererListeService();
-    afficherPageDirecteur($agents, $justif, $service);
+    $user = getUtilisateurByID($_SESSION["user_id"]);
+    afficherPageDirecteur($agents, $justif, $service, $user);
 
 }
 
 function CtlAfficherPageAgentAccueil(){
     afficherPageAgentAccueil();
+}
+
+function CtlAfficherPageAgentAdmin(){
+    $agentsadmin = recupererAgentsAdministratifs();
+    afficherPageAdmin($agentsadmin);
 }
 
 function CtlSupprimerUtilisateur($id)
@@ -123,7 +129,8 @@ function CtlAfficherPageAdminAvecPlanning($employe, $date)
     $agentsadmin = recupererAgentsAdministratifs();
     $formations = getFormations($employe, $date);
     $employename = getUtilisateurByID($employe);
-    afficherPageAdmin($agentsadmin, $formations, $employename->NOM . " " . $employename->PRENOM, $date);
+    $rdv = getRendezVousComplet($employe, $date);
+    afficherPageAdmin($agentsadmin, $formations, $employename->NOM . " " . $employename->PRENOM, $date, $rdv);
 }
 
 function CtlAjouterService($nom, $montant, $checked = null)
@@ -188,5 +195,142 @@ function CtlAjouterEtudiant($id_etu, $nom, $prenom, $adresse, $tel, $mail, $deco
 
 }
 
+function CtlRechercherEtudiant($nom){
+    $etu = rechercherEtudiant($nom);
+    echo ("<fieldset>
+    <legend>Modifications des informations à propos de $etu->NOM :</legend>
+    <form action='index.php' id='etu' method='post' autocomplete='off'>
+        <p><label for='modifnumetu'>Numéro étudiant : </label><input type='number' name='modifnumetu' value='$etu->ID_ETUDIANT' required></p>
+        <p><label for='modifnometu'>Nom : </label><input type='text' name='modifnometu' value='$etu->NOM' required></p>
+        <p><label for='modifprenometu'>Prénom : </label><input type='text' name='modifprenometu' value='$etu->PRENOM' required></p>
+        <p><label for='modifdatenaissanceetu'>Date de naissance : </label><input type='date' name='modifdatenaissanceetu' value='$etu->DATE_NAISSANCE' required></p>
+        <p><label for='modifadresseetu'>Adresse : </label><input type='text' name='modifadresseetu' value='$etu->ADRESSE' required></p>
+        <p><label for='modifteletu'>Numéro de téléphone : </label><input type='tel' name='modifteletu' value='$etu->TELEPHONE' required></p>
+        <p><label for='modifmailetu'>Adresse mail : </label><input type='email' name='modifmailetu' value='$etu->MAIL' required></p>
+        <p><label for='modifdecouvertetu'>Découvert autorisé : </label><input type='number' name='modifdecouvertetu' value='$etu->DECOUVERT' required></p>
+        <p><input type='submit' value='Enregistrer modifications' name='activemodifetu'></p>
+        <p><input type='submit' value='Supprimer étudiant' name='activesuppetu'></p>
+
+    </form>
+
+    </fieldset>");
+}
+
+
+
+function CtlModifierEtudiant($id_etu, $nom, $prenom, $datenaissance, $adresse, $tel, $mail, $decouvert){
+    modifierEtudiant($id_etu, $nom, $prenom, $adresse, $tel, $mail, $decouvert, $datenaissance);
+    echo("<form action='index.php' method='post'><p>Les informations de l'étudiant $nom $prenom ont été modifié avec succès ! <br><button type='submit' name='affacc'>Retour vers l'accueil</button><form action='index.php' method='post'>");
+}
+function CtlSupprimerEtu($nom){
+    supprimerEtu($nom);
+    echo("<form action='index.php' method='post'><p>L'étudiant $nom a été supprimé avec succès ! <br><button type='submit' name='affacc'>Retour vers l'accueil</button><form action='index.php' method='post'>");
+
+}
+
+function CtlChangerDecouvert($idetu, $montant)
+{
+    changerDecouvert($idetu, $montant);
+    echo("<form action='index.php' method='post'><p>Le decouvert a été modifié a $montant<br><button type='submit' name='affadm'>Retour vers l'accueil</button><form action='index.php' method='post'>");
+
+}
+
+function CtlAfficherListeAPayer($nometu)
+{
+    $idetu = rechercherEtudiant($nometu);
+    $paiements = getListePaiements($idetu->ID_ETUDIANT);
+    afficherListePourPaiement($paiements, $nometu);
+}
+
+function CtlEffectuerUnPaiement($value, $nom)
+{
+    foreach ($value as $check)
+    {
+        $paie = getPaiementByID($check);
+        effectuerUnPaiement($paie->ID_PAIEMENT);
+    }
+    echo("<form action='index.php' method='post'><p>Les paiements ont été effectués.<br><input type='hidden' name='etuname' value='$nom'><button type='submit' name='affpaie'>Revenir en arriere</button><form action='index.php' method='post'>");
+
+}
+
+function CtlPasserEnDiffere($data, $nom)
+{
+    $total = 0;
+    foreach ($data as $check)
+    {
+        $paie = getPaiementByID($check);
+        $service = getServiceByID($paie->ID_SERVICE);
+        $total += $service->MONTANT;
+    }
+
+    if(peutDiffere($paie->ID_ETUDIANT, $total))
+    {
+        foreach ($data as $check)
+        {
+            $paie = getPaiementByID($check);
+            passerEnDiffere($paie->ID_PAIEMENT);
+        }
+        echo("<form action='index.php' method='post'><p>Les paiements ont été passés en différé.<br><input type='hidden' name='etuname' value='$nom'><button type='submit' name='affpaie'>Revenir en arriere</button><form action='index.php' method='post'>");
+
+    }else{
+        echo("<form action='index.php' method='post'><p>Le montant total de différés de l'etudiant dépasse son découvert autorisé<br><input type='hidden' name='etuname' value='$nom'><button type='submit' name='affpaie'>Revenir en arriere</button><form action='index.php' method='post'>");
+    }
+}
+
+function CtlSyntheseRdv($id_rdv){
+    $etu = getNomEtuByIdRdv($id_rdv);
+    $service = getServiceByIdRdv($id_rdv);
+    $restant = $etu->DECOUVERT - getMontantEnDiffere($etu->ID_ETUDIANT);
+    echo("<fieldset>
+    <legend>Synthèse du rendez-vous :</legend>
+        <p>Nom : $etu->NOM</p>
+        <p>Prénom : $etu->PRENOM</p>
+        <p>Le nom du service : $service->NOM</p>
+        <p>Le montant du service : $service->MONTANT €</p>
+    </fieldset>
+    <br>
+
+    <fieldset>
+    <legend>Synthèse de $etu->NOM $etu->PRENOM :</legend>
+
+        <p>Numéro étudiant : $etu->ID_ETUDIANT </p>
+        <p>Nom : $etu->NOM</p>
+        <p>Prénom : $etu->PRENOM</p>
+        <p>Date de naissance : $etu->DATE_NAISSANCE</p>
+        <p>Adresse : $etu->ADRESSE</p>
+        <p>Numéro de téléphone : $etu->TELEPHONE</p>
+        <p>Adresse mail : $etu->MAIL</p>
+        <p>Découvert autorisé : $etu->DECOUVERT €</p>
+        <p>Découvert autorisé restant : $restant €</p>
+
+    </fieldset>
+     <br>");
+
+    echo("<form action='index.php' method='post'><button type='submit' name='affadm'>Retour vers l'accueil</button><form action='index.php' method='post'>");
+}
+
+function CtlSyntheseEtu($nom)
+{
+    $etu = rechercherEtudiant($nom);
+    $restant = $etu->DECOUVERT - getMontantEnDiffere($etu->ID_ETUDIANT);
+    echo("
+    <fieldset>
+    <legend>Synthèse de $etu->NOM $etu->PRENOM :</legend>
+
+        <p>Numéro étudiant : $etu->ID_ETUDIANT </p>
+        <p>Nom : $etu->NOM</p>
+        <p>Prénom : $etu->PRENOM</p>
+        <p>Date de naissance : $etu->DATE_NAISSANCE</p>
+        <p>Adresse : $etu->ADRESSE</p>
+        <p>Numéro de téléphone : $etu->TELEPHONE</p>
+        <p>Adresse mail : $etu->MAIL</p>
+        <p>Découvert autorisé : $etu->DECOUVERT €</p>
+        <p>Découvert autorisé restant : $restant €</p>
+
+    </fieldset>
+     <br>");
+
+    echo("<form action='index.php' method='post'><button type='submit' name='affacc'>Retour vers l'accueil</button><form action='index.php' method='post'>");
+}
 
 

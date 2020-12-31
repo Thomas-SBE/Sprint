@@ -11,24 +11,25 @@
     <legend>Création nouvel étudiant</legend>
     <form action="index.php" id="etu" method="post" autocomplete="off">
         <p><label for="nouveaunumetu">Numéro étudiant : </label><input type="number" name="nouveaunumetu" required></p>
-        <p><label for="nouveauprenometu">Prénom : </label><input type="text" name="nouveauprenometu" required></p>
         <p><label for="nouveaunometu">Nom : </label><input type="text" name="nouveaunometu" required></p>
+        <p><label for="nouveauprenometu">Prénom : </label><input type="text" name="nouveauprenometu" required></p>
+        <p><label for="nouvelledatenaissanceetu">Date de naissance : </label><input type="date" name="nouvelledatenaissanceetu" required></p>
         <p><label for="nouvelleadresseetu">Adresse : </label><input type="text" name="nouvelleadresseetu" required></p>
         <p><label for="nouveauteletu">Numéro de téléphone : </label><input type="tel" name="nouveauteletu" required></p>
         <p><label for="nouveaumailetu">Adresse mail : </label><input type="email" name="nouveaumailetu" required></p>
         <p><label for="nouveaudecouvertetu">Découvert autorisé : </label><input type="number" name="nouveaudecouvertetu" required></p>
-        <p><label for="nouvelledatenaissanceetu">Date de naissance : </label><input type="date" name="nouvelledatenaissanceetu" required></p>
         <p><input type="submit" value="Créer l'étudiant" name="creeretu"></p>
     </form>
 </fieldset>
 
+
 <fieldset>
     <legend>Les étudiants</legend>
     <form action="index.php" id="etu" method="post">
-        <p><input type="submit" value="Saisir ou modifier informations" name="saisiinfo"></p>
+        <p><label for="etudiant">Nom de l'étudiant : </label><input type="text" name="etudiant" required></p>
+        <p><input type="submit" value="Rechercher étudiant" name="rechercheetu"></p>
         <p><input type="submit" value="Consulter synthèse" name="consultesynth"></p>
         <p><input type="submit" value="Effectuer payement" name="payer"></p>
-        <p><input type="submit" value="Remboursement" name="rembourser"></p>
         <p><input type="submit" value="Prendre RDV" name="prendrerdv"></p>
     </form>
 </fieldset>

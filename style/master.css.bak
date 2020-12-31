@@ -10,37 +10,10 @@
     font-weight: normal;
 }
 
-legend{
-color:#09C;
-font-size:22px;
-margin:left;
-font-weight: bold;
-}
-label{
-color:#414A51;
-font-weight: bold;
-}
-
-input:focus{
-width:20%;
-box-shadow: 0 0 5px #6495ED;
-}
-
-P.blocktext {
-    margin-left: auto;
-    margin-right: auto;
-    width: 16em
-}
-
-
 body
 {
     font-family: "Atkinson Hyperlegible";
-    background-color:#F1F4F9; 
-
 }
-
-
 
 input {
     font-family: "Atkinson Hyperlegible";
@@ -48,18 +21,11 @@ input {
 
 button {
     font-family: "Atkinson Hyperlegible";
-    
 }
-input[type=submit]{
-border-color: #DDEEFF;
-border-width:3px;
-border-style:solide;
 
-}
 select {
     font-style: italic;
     font-family: "Atkinson Hyperlegible";
-    
 }
 
 option:checked {
@@ -83,7 +49,6 @@ td{
     border: 0;
     padding: 5px;
 }
-
 
 
 .rdvbtn:hover{

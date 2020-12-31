@@ -125,6 +125,17 @@ function getFormations($id, $date)
     return $formations;
 }
 
+function getRendezVousComplet($id, $date)
+{
+    $c = getConnection();
+    $req = "SELECT *, CAST(`DATE` AS TIME) AS `HEURES` FROM `rendezvous` NATURAL JOIN `etudiants` WHERE CAST(`DATE` AS DATE) = \"$date\" AND ID_UTILISATEUR = \"$id\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $rdv = $res->fetchAll();
+    $res->closeCursor();
+    return $rdv;
+}
+
 function ajouterService($nom, $montant){
     $c = getConnection();
     $req = "INSERT INTO services (NOM,MONTANT) VALUES (\"$nom\",\"$montant\")";
@@ -190,5 +201,129 @@ function ajouterEtudiant($id_etu, $nom, $prenom, $adresse, $tel, $mail, $decouve
     $res->closeCursor();
 }
 
+function rechercherEtudiant($nom){
+    $c = getConnection();
+    $req = "SELECT * FROM `etudiants` WHERE `NOM`=\"$nom\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $etu = $res->fetch();
+    $res->closeCursor();
+    return $etu;
+}
+
+function modifierEtudiant($id_etu, $nom, $prenom, $adresse, $tel, $mail, $decouvert, $datenaissance){
+    $c = getConnection();
+    $req = "UPDATE etudiants SET ID_ETUDIANT = \"$id_etu\", NOM = \"$nom\", PRENOM = \"$prenom\", ADRESSE = \"$adresse\", TELEPHONE = \"$tel\", MAIL = \"$mail\", DECOUVERT = \"$decouvert\", DATE_NAISSANCE = \"$datenaissance\" WHERE NOM = \"$nom\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function supprimerEtu($nom){
+    $c = getConnection();
+    $req = "DELETE FROM etudiants WHERE NOM = \"$nom\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function getMontantEnDiffere($id_etu)
+{
+    $c = getConnection();
+    $req = "SELECT SUM(`MONTANT`) AS `DIFERE` FROM `paiement` NATURAL JOIN `services` WHERE `ETAT_DU_PAIEMENT`=\"DIFFERE\" AND `ID_ETUDIANT`=\"$id_etu\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $montant = $res->fetch();
+    $res->closeCursor();
+    return $montant->DIFERE;
+}
+
+function peutDiffere($id_etu, $montant)
+{
+    $c = getConnection();
+    $req = "SELECT `DECOUVERT` FROM `etudiants` WHERE `ID_ETUDIANT`=\"$id_etu\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $data = $res->fetch();
+    $res->closeCursor();
+    $differeactuel = getMontantEnDiffere($id_etu);
+    if($differeactuel + $montant > $data->DECOUVERT){return false;}
+    else {return true;}
+}
+
+function changerDecouvert($id_etu, $montant)
+{
+    $c = getConnection();
+    $req = "UPDATE etudiants SET `DECOUVERT`=\"$montant\" WHERE `ID_ETUDIANT`=\"$id_etu\"";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function getListePaiements($id_etu)
+{
+    $c = getConnection();
+    $req = "SELECT * FROM `paiement` NATURAL JOIN `services` WHERE `ID_ETUDIANT`=\"$id_etu\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $data = $res->fetchAll();
+    $res->closeCursor();
+    return $data;
+}
+
+function effectuerUnPaiement($idp)
+{
+    $c = getConnection();
+    $req = "UPDATE `paiement` SET `ETAT_DU_PAIEMENT`=\"PAYE\" WHERE `ID_PAIEMENT`=\"$idp\" LIMIT 1";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function passerEnDiffere($idp)
+{
+    $c = getConnection();
+    $req = "UPDATE `paiement` SET `ETAT_DU_PAIEMENT`=\"DIFFERE\" WHERE `ID_PAIEMENT`=\"$idp\" LIMIT 1";
+    $res = $c->query($req);
+    $res->closeCursor();
+}
+
+function getPaiementByID($id)
+{
+    $c = getConnection();
+    $req = "SELECT * FROM `paiement` WHERE `ID_PAIEMENT`=\"$id\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $paie = $res->fetch();
+    $res->closeCursor();
+    return $paie;
+}
+
+function getNomEtuByIdRdv($id_rdv){
+    $c = getConnection();
+    $req = "SELECT * FROM rendezvous INNER JOIN etudiants ON rendezvous.ID_ETUDIANT = etudiants.ID_ETUDIANT WHERE ID_RDV = \"$id_rdv\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $rdv = $res->fetch();
+    $res->closeCursor();
+    return $rdv;
+}
+
+function getEtudiantByID($id)
+{
+    $c = getConnection();
+    $req = "SELECT * FROM `etudiants` WHERE `ID_ETUDIANT`=\"$id\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $data = $res->fetch();
+    $res->closeCursor();
+    return $data;
+}
+
+function getServiceByIdRdv($id_rdv){
+    $c = getConnection();
+    $req = "SELECT * FROM rendezvous INNER JOIN services ON rendezvous.ID_SERVICE = services.ID_SERVICE WHERE ID_RDV = \"$id_rdv\"";
+    $res = $c->query($req);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $serv = $res->fetch();
+    $res->closeCursor();
+    return $serv;
+}
 
 ?>
