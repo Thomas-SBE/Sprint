@@ -12,8 +12,8 @@
 * ❌ 🎹 bloque aujourd'hui 18h pour formation : 0.5
 ## L'agent se connecte et :
 * ✔️ 🍮 crée l'étudiant DUPONT avec un découvert 100 : 0.25
-* ❌ 🍮 recherche DUPONT : 0.25
-* ❌ 🍮 modifie directement DUPONT une fois la recherche effectuée : 0.5
+* ✔️ 🍮 recherche DUPONT : 0.25
+* ✔️ 🍮 modifie directement DUPONT une fois la recherche effectuée : 0.5
 * ✔️ 🛶 visualise le planning de l'agent administratif Y en voyant qu'il n'est pas disponible aujourd'hui 18h pour cause de formation: 1
 * ❌ 🎹 essaye de prendre quand même un rdv à 18h ce qui doit générer une erreur pour cause de formation : 2
 * ❌ 🎹 sauvegarde un rdv avec DUPONT sur un créneau disponible avec visualisation automatique d'une liste déroulante de services possibles dont X et une fois la sauvegarde validée affichage de la pièce X1 à apporter : 3
